@@ -28,7 +28,7 @@ jobs:
       - name: Build slides
         run: |
           cd src
-          reveal-md main.md --static _site
+          reveal-md main.md --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html --static _site --assets-dir assets
           cp -r sys3 _site/
           cp custom.css _site/
           cp heti_worker.js _site/
