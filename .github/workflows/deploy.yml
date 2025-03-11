@@ -32,40 +32,37 @@ jobs:
           
           cd src
           
-          # 复制自定义首页到_site目录（如果存在）
-          if [ -f "index.html" ]; then
-            cp index.html _site/index.html.template
-          fi
+          # 首先复制所有资源文件到_site目录
+          cp -r sys3 _site/ || true
+          cp custom.css _site/ || true
+          cp heti_worker.js _site/ || true
+          mkdir -p _site/assets
+          [ -d "assets" ] && cp -r assets/* _site/assets/ || true
           
-          # 复制公共资源
-          cp -r sys3 _site/
-          cp custom.css _site/
-          cp heti_worker.js _site/
-          
-          # 处理所有Markdown文件
-          ALL_SLIDES=""
+          # 处理所有Markdown文件，将背景路径修正
           for slide_md in *.md; do
             if [ -f "$slide_md" ]; then
-              # 获取文件名(不含扩展名)
+              # 创建一个临时文件，修正背景路径
               filename=$(basename "$slide_md" .md)
-              title=$(head -n 1 "$slide_md" | sed 's/^#\s*//')
-              echo "Processing slide: $filename - $title"
+              
+              # 修正背景路径，确保在子目录中也能找到
+              sed 's|data-background="sys3/|data-background="../sys3/|g' "$slide_md" > "${slide_md}.tmp"
               
               # 为该幻灯片创建子目录
               mkdir -p "_site/$filename"
               
               # 生成该幻灯片的HTML
-              reveal-md "$slide_md" --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html --static "_site/$filename" --assets-dir "assets"
+              reveal-md "${slide_md}.tmp" --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html --static "_site/$filename" --assets-dir "../assets"
               
               # 重命名生成的HTML文件为index.html
               mv "_site/$filename/$filename.html" "_site/$filename/index.html"
               
-              # 为首页准备幻灯片项
-              SLIDE_CLASS=""
-              if [ "$filename" = "sys" ]; then
-                SLIDE_CLASS="class=\"main-slide\""
-              fi
-              ALL_SLIDES="$ALL_SLIDES\n    <li $SLIDE_CLASS><a href=\"./$filename/\">$title</a></li>"
+              # 复制背景资源到每个幻灯片子目录（确保相对路径都能找到资源）
+              mkdir -p "_site/$filename/sys3"
+              cp -r sys3/* "_site/$filename/sys3/" || true
+              
+              # 删除临时文件
+              rm "${slide_md}.tmp"
             fi
           done
           
