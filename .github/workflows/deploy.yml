@@ -34,6 +34,7 @@ jobs:
           
           # 首先复制所有资源文件到_site目录
           cp -r sys3 _site/ || true
+          cp -r arvr _site/ || true
           cp custom.css _site/ || true
           cp heti_worker.js _site/ || true
           mkdir -p _site/assets
@@ -49,7 +50,9 @@ jobs:
               echo "Processing slide: $filename - $title"
               
               # 修正背景路径，确保在子目录中也能找到
-              sed 's|data-background="sys3/|data-background="../sys3/|g' "$slide_md" > "${slide_md}.tmp"
+              sed -e 's|data-background="sys3/|data-background="../sys3/|g' \
+                  -e 's|data-background="arvr/|data-background="../arvr/|g' \
+                  "$slide_md" > "${slide_md}.tmp"
               
               # 为该幻灯片创建子目录
               mkdir -p "_site/$filename"
@@ -64,8 +67,9 @@ jobs:
               fi
               
               # 复制背景资源到每个幻灯片子目录（确保相对路径都能找到资源）
-              mkdir -p "_site/$filename/sys3"
+              mkdir -p "_site/$filename/sys3" "_site/$filename/arvr"
               cp -r sys3/* "_site/$filename/sys3/" || true
+              cp -r arvr/* "_site/$filename/arvr/" || true
               
               # 删除临时文件
               rm "${slide_md}.tmp"
