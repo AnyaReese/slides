@@ -95,7 +95,7 @@ Note:
    - 硬件依赖性高：需要高性能 GPU 支持。
 
 <div class="center">
-<img src="arvr/iMap.png" width="70%">
+<img src="arvr/imap21.png" width="70%">
 </div>
 
 Note:
