@@ -40,10 +40,13 @@ jobs:
           [ -d "assets" ] && cp -r assets/* _site/assets/ || true
           
           # 处理所有Markdown文件，将背景路径修正
+          ALL_SLIDES=""
           for slide_md in *.md; do
             if [ -f "$slide_md" ]; then
-              # 创建一个临时文件，修正背景路径
+              # 获取文件名(不含扩展名)
               filename=$(basename "$slide_md" .md)
+              title=$(head -n 1 "$slide_md" | sed 's/^#\s*//')
+              echo "Processing slide: $filename - $title"
               
               # 修正背景路径，确保在子目录中也能找到
               sed 's|data-background="sys3/|data-background="../sys3/|g' "$slide_md" > "${slide_md}.tmp"
@@ -54,8 +57,11 @@ jobs:
               # 生成该幻灯片的HTML
               reveal-md "${slide_md}.tmp" --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html --static "_site/$filename" --assets-dir "../assets"
               
-              # 重命名生成的HTML文件为index.html
-              mv "_site/$filename/$filename.html" "_site/$filename/index.html"
+              # 确保index.html存在 - 现在不需要重命名，因为reveal-md已经直接生成了index.html
+              if [ ! -f "_site/$filename/index.html" ] && [ -f "_site/$filename/$filename.html" ]; then
+                # 如果没有index.html但有filename.html，则重命名
+                mv "_site/$filename/$filename.html" "_site/$filename/index.html"
+              fi
               
               # 复制背景资源到每个幻灯片子目录（确保相对路径都能找到资源）
               mkdir -p "_site/$filename/sys3"
@@ -63,10 +69,112 @@ jobs:
               
               # 删除临时文件
               rm "${slide_md}.tmp"
+              
+              # 为首页准备幻灯片项
+              SLIDE_CLASS=""
+              if [ "$filename" = "sys" ]; then
+                SLIDE_CLASS="class=\"main-slide\""
+              fi
+              ALL_SLIDES="$ALL_SLIDES\n    <li $SLIDE_CLASS><a href=\"./$filename/\">$title</a></li>"
             fi
           done
           
           # 生成索引页面
+          echo "<!DOCTYPE html>
+          <html lang=\"zh-CN\">
+          <head>
+            <meta charset=\"UTF-8\">
+            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+            <title>幻灯片集合</title>
+            <link rel=\"stylesheet\" href=\"custom.css\">
+            <style>
+              body { 
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+                max-width: 900px; 
+                margin: 0 auto; 
+                padding: 40px 20px;
+                line-height: 1.6;
+              }
+              .header {
+                text-align: center;
+                margin-bottom: 40px;
+              }
+              .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+              }
+              .header p {
+                font-size: 1.2em;
+                color: #666;
+              }
+              .slides-list {
+                list-style: none;
+                padding: 0;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+              }
+              .slides-list li {
+                border-radius: 8px;
+                background: #f5f5f5;
+                transition: all 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+              }
+              .slides-list li:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+              }
+              .slides-list a {
+                display: block;
+                padding: 25px;
+                font-size: 1.2em;
+                color: #333;
+                text-decoration: none;
+              }
+              .slides-list a:hover {
+                color: #0066cc;
+              }
+              .main-slide {
+                background: #e6f7ff !important;
+                border-left: 4px solid #0066cc;
+              }
+              .description {
+                margin: 40px 0;
+                padding: 20px;
+                background: #f9f9f9;
+                border-radius: 8px;
+              }
+              .footer {
+                margin-top: 40px;
+                text-align: center;
+                font-size: 0.9em;
+                color: #666;
+              }
+            </style>
+          </head>
+          <body>
+            <div class=\"header\">
+              <h1>幻灯片集合</h1>
+              <p>系统设计及各种主题的幻灯片</p>
+            </div>
+
+            <div class=\"description\">
+              <h2>关于本站</h2>
+              <p>本站托管了多个幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
+              <p>所有幻灯片均使用reveal.js制作，支持全屏浏览和演示者模式。在幻灯片页面按<kbd>F</kbd>键进入全屏，按<kbd>ESC</kbd>退出。</p>
+            </div>
+
+            <h2>可用幻灯片</h2>
+            <ul class=\"slides-list\">$ALL_SLIDES
+            </ul>
+
+            <div class=\"footer\">
+              <p>使用 reveal-md 和 GitHub Pages 构建</p>
+            </div>
+          </body>
+          </html>" > _site/index.html
+          
+          # 创建幻灯片索引页面
           echo "<!DOCTYPE html>
           <html>
           <head>
@@ -111,110 +219,9 @@ jobs:
           </body>
           </html>" > _site/slides.html
           
-          # 检查是否需要生成动态首页
-          if [ -f "_site/index.html.template" ]; then
-            # 使用模板生成动态首页
-            sed "s|<li class=\"main-slide\"><a href=\"./sys/\">系统设计幻灯片</a></li>\\s*<li><a href=\"./example/\">示例幻灯片</a></li>\\s*<li><a href=\"./home/\">幻灯片导航</a></li>|$ALL_SLIDES|g" _site/index.html.template > _site/index.html
-            rm _site/index.html.template
-          else
-            # 如果没有模板，生成一个简单的首页
-            echo "<!DOCTYPE html>
-            <html lang=\"zh-CN\">
-            <head>
-              <meta charset=\"UTF-8\">
-              <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-              <title>幻灯片集合</title>
-              <link rel=\"stylesheet\" href=\"custom.css\">
-              <style>
-                body { 
-                  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-                  max-width: 900px; 
-                  margin: 0 auto; 
-                  padding: 40px 20px;
-                  line-height: 1.6;
-                }
-                .header {
-                  text-align: center;
-                  margin-bottom: 40px;
-                }
-                .header h1 {
-                  font-size: 2.5em;
-                  margin-bottom: 10px;
-                }
-                .header p {
-                  font-size: 1.2em;
-                  color: #666;
-                }
-                .slides-list {
-                  list-style: none;
-                  padding: 0;
-                  display: grid;
-                  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                  gap: 20px;
-                }
-                .slides-list li {
-                  border-radius: 8px;
-                  background: #f5f5f5;
-                  transition: all 0.3s ease;
-                  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                }
-                .slides-list li:hover {
-                  transform: translateY(-5px);
-                  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-                }
-                .slides-list a {
-                  display: block;
-                  padding: 25px;
-                  font-size: 1.2em;
-                  color: #333;
-                  text-decoration: none;
-                }
-                .slides-list a:hover {
-                  color: #0066cc;
-                }
-                .main-slide {
-                  background: #e6f7ff !important;
-                  border-left: 4px solid #0066cc;
-                }
-                .description {
-                  margin: 40px 0;
-                  padding: 20px;
-                  background: #f9f9f9;
-                  border-radius: 8px;
-                }
-                .footer {
-                  margin-top: 40px;
-                  text-align: center;
-                  font-size: 0.9em;
-                  color: #666;
-                }
-              </style>
-            </head>
-            <body>
-              <div class=\"header\">
-                <h1>幻灯片集合</h1>
-                <p>系统设计及各种主题的幻灯片</p>
-              </div>
-
-              <div class=\"description\">
-                <h2>关于本站</h2>
-                <p>本站托管了多个幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
-                <p>所有幻灯片均使用reveal.js制作，支持全屏浏览和演示者模式。在幻灯片页面按<kbd>F</kbd>键进入全屏，按<kbd>ESC</kbd>退出。</p>
-              </div>
-
-              <h2>可用幻灯片</h2>
-              <ul class=\"slides-list\">$ALL_SLIDES
-              </ul>
-
-              <div class=\"footer\">
-                <p>使用 reveal-md 和 GitHub Pages 构建</p>
-              </div>
-            </body>
-            </html>" > _site/index.html
-          fi
-          
-      - name: List directory structure
-        run: ls -R
+          # 调试信息
+          echo "Output directory structure:"
+          find _site -type f | sort
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
