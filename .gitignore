@@ -7,6 +7,7 @@ yarn-error.log*
 # reveal-md
 _site/
 dist/
+site/
 
 # IDE
 .idea/
