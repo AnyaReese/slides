@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>幻灯片集合</title>
+  <link rel="stylesheet" href="custom.css">
+  <style>
+    body { 
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .header p {
+      font-size: 1.2em;
+      color: #666;
+    }
+    .slides-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .slides-list li {
+      border-radius: 8px;
+      background: #f5f5f5;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .slides-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .slides-list a {
+      display: block;
+      padding: 25px;
+      font-size: 1.2em;
+      color: #333;
+      text-decoration: none;
+    }
+    .slides-list a:hover {
+      color: #0066cc;
+    }
+    .main-slide {
+      background: #e6f7ff !important;
+      border-left: 4px solid #0066cc;
+    }
+    .description {
+      margin: 40px 0;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>幻灯片集合</h1>
+    <p>系统设计及各种主题的幻灯片</p>
+  </div>
+
+  <div class="description">
+    <h2>关于本站</h2>
+    <p>本站托管了多个幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
+    <p>所有幻灯片均使用reveal.js制作，支持全屏浏览和演示者模式。在幻灯片页面按<kbd>F</kbd>键进入全屏，按<kbd>ESC</kbd>退出。</p>
+  </div>
+
+  <h2>可用幻灯片</h2>
+  <ul class="slides-list">
+    <li class="main-slide"><a href="./sys/">系统设计幻灯片</a></li>
+    <li><a href="./example/">示例幻灯片</a></li>
+    <li><a href="./home/">幻灯片导航</a></li>
+  </ul>
+
+  <div class="footer">
+    <p>使用 reveal-md 和 GitHub Pages 构建</p>
+  </div>
+</body>
+</html> 
