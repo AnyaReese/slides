@@ -6,91 +6,383 @@
   <title>幻灯片集合</title>
   <link rel="stylesheet" href="custom.css">
   <style>
+    :root {
+      --primary-color: #0066cc;
+      --course-color: #5b81bd;
+      --hover-color: #f0f7ff;
+      --text-color: #333;
+      --bg-color: #fff;
+      --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      --card-hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      --transition-time: 0.3s;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-color: #e0e0e0;
+        --bg-color: #1a1a1a;
+        --hover-color: #2a2a2a;
+        --card-shadow: 0 2px 5px rgba(255,255,255,0.1);
+        --card-hover-shadow: 0 8px 25px rgba(255,255,255,0.15);
+      }
+    }
+
     body { 
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      max-width: 900px; 
+      max-width: 1000px; 
       margin: 0 auto; 
       padding: 40px 20px;
       line-height: 1.6;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color var(--transition-time);
     }
+
     .header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 60px;
+      position: relative;
     }
+
     .header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
+      font-size: 3em;
+      margin-bottom: 15px;
+      background: linear-gradient(45deg, #0f213e, #33e0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradient 8s ease infinite;
     }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .header p {
       font-size: 1.2em;
       color: #666;
+      opacity: 0.8;
     }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .filter-button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      background: transparent;
+      color: var(--text-color);
+      cursor: pointer;
+      transition: all var(--transition-time);
+      border: 2px solid var(--primary-color);
+    }
+
+    .filter-button:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .filter-button.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
     .slides-list {
       list-style: none;
       padding: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      perspective: 1000px;
     }
+
     .slides-list li {
-      border-radius: 8px;
-      background: #f5f5f5;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      background: var(--bg-color);
+      transition: all var(--transition-time);
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: visible;
+      transform-style: preserve-3d;
+      transform: translateZ(0);
     }
+
     .slides-list li:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform: translateY(-5px) rotateX(5deg);
+      box-shadow: var(--card-hover-shadow);
     }
+
     .slides-list a {
       display: block;
-      padding: 25px;
+      padding: 30px;
       font-size: 1.2em;
-      color: #333;
+      color: var(--text-color);
       text-decoration: none;
+      position: relative;
+      z-index: 1;
+      border-radius: 12px;
+      overflow: hidden;
     }
-    .slides-list a:hover {
-      color: #0066cc;
+
+    .slides-list a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--hover-color);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform var(--transition-time);
+      z-index: -1;
     }
+
+    .slides-list li:hover a::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
     .main-slide {
-      background: #e6f7ff !important;
-      border-left: 4px solid #0066cc;
+      background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%) !important;
+      border-left: 4px solid var(--primary-color);
     }
+
+    .course-slide {
+      background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%) !important;
+      border-left: 4px solid var(--course-color);
+    }
+
+    .tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      color: white;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transform: translateZ(20px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: all var(--transition-time);
+      z-index: 2;
+    }
+
+    .tag-course {
+      background-color: var(--course-color);
+    }
+
+    .tag-main {
+      background-color: var(--primary-color);
+    }
+
+    .slides-list li:hover .tag {
+      transform: translateZ(30px) scale(1.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
     .description {
       margin: 40px 0;
-      padding: 20px;
-      background: #f9f9f9;
-      border-radius: 8px;
+      padding: 25px;
+      background: var(--hover-color);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      transition: all var(--transition-time);
     }
+
+    .description:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+
+    kbd {
+      background: var(--bg-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+      margin: 0 2px;
+    }
+
     .footer {
-      margin-top: 40px;
+      margin-top: 60px;
       text-align: center;
       font-size: 0.9em;
       color: #666;
+      opacity: 0.8;
     }
+
+    /* 添加主题切换按钮 */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      background: var(--primary-color);
+      border: none;
+      color: white;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      transition: all var(--transition-time);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    /* 添加加载动画 */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slides-list li {
+      animation: fadeIn 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .slides-list li:nth-child(1) { animation-delay: 0.1s; }
+    .slides-list li:nth-child(2) { animation-delay: 0.2s; }
+    .slides-list li:nth-child(3) { animation-delay: 0.3s; }
+    .slides-list li:nth-child(4) { animation-delay: 0.4s; }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>幻灯片集合</h1>
-    <p>系统设计及各种主题的幻灯片</p>
+  </div>
+
+  <div class="filter-buttons">
+    <button class="filter-button active" data-filter="all">全部</button>
+    <button class="filter-button" data-filter="course">课程</button>
+    <!-- <button class="filter-button" data-filter="main">主要</button> -->
+    <button class="filter-button" data-filter="other">其他</button>
   </div>
 
   <div class="description">
-    <h2>关于本站</h2>
-    <p>本站托管了多个幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
+    <!-- <h2>幻灯片导航</h2> -->
+    <p>本站托管了多个响应式幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
     <p>所有幻灯片均使用 reveal.js 制作，支持全屏浏览和演示者模式。在幻灯片页面按<kbd>F</kbd>键进入全屏，按<kbd>ESC</kbd>退出。</p>
+    <p>幻灯片使用了 <a href="https://cdn.tonycrane.cc/heti/heti.js">Heti@tonycrane</a> 插件，支持中日韩繁简体字符的自动转换。</p>
   </div>
 
   <h2>可用幻灯片</h2>
   <ul class="slides-list">
-    <li class="main-slide"><a href="./sys/">系统设计幻灯片</a></li>
-    <li><a href="./example/">测试幻灯片</a></li>
-    <li><a href="./home/">幻灯片导航</a></li>
+    <li class="course-slide" data-type="course">
+      <a href="./sys/">计算机系统三 XPart 展示</a>
+      <span class="tag tag-course">课程</span>
+    </li>
+    <li class="course-slide" data-type="course">
+      <a href="./arvr/">ARVR 专题研讨课程展示</a>
+      <span class="tag tag-course">课程</span>
+    </li>
+    <!-- <li data-type="other">
+      <a href="./home/">幻灯片导航</a>
+    </li> -->
   </ul>
 
   <div class="footer">
     <p>使用 reveal-md 和 GitHub Pages 构建 @anyareese2025</p>
   </div>
+
+  <!-- <button class="theme-toggle" aria-label="切换主题">🌓</button> -->
+
+  <script>
+    // 恢复到最初的基础筛选功能
+    document.addEventListener('DOMContentLoaded', function() {
+      // 确保DOM完全加载后才执行脚本
+      console.log('DOM加载完成，准备初始化筛选功能');
+      
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const slides = document.querySelectorAll('.slides-list li');
+      
+      console.log('找到', filterButtons.length, '个筛选按钮');
+      console.log('找到', slides.length, '个幻灯片项');
+      
+      // 为每个按钮注册点击事件
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          console.log('点击了按钮:', this.getAttribute('data-filter'));
+          
+          // 更新按钮状态
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 获取筛选值
+          const filter = this.getAttribute('data-filter');
+          
+          // 筛选项目
+          slides.forEach(slide => {
+            const type = slide.getAttribute('data-type');
+            console.log('幻灯片类型:', type, '筛选条件:', filter);
+            
+            if (filter === 'all' || type === filter) {
+              slide.style.display = '';
+            } else {
+              slide.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+
+    // 主题切换
+    const themeToggle = document.querySelector('.theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 
+        (prefersDarkScheme.matches ? 'dark' : 'light');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      setTheme(newTheme);
+    });
+
+    // 初始化主题
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+
+    // 添加鼠标移动视差效果
+    document.addEventListener('mousemove', (e) => {
+      const cards = document.querySelectorAll('.slides-list li');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const angleX = (y - centerY) / 30;
+        const angleY = (centerX - x) / 30;
+        
+        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
+      });
+    });
+
+    // 鼠标离开时重置卡片效果
+    document.addEventListener('mouseleave', () => {
+      const cards = document.querySelectorAll('.slides-list li');
+      cards.forEach(card => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+  </script>
 </body>
 </html> 
