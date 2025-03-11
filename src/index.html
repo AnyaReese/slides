@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>幻灯片集合</title>
   <link rel="stylesheet" href="custom.css">
+  <link rel="stylesheet" href="https://cdn.tonycrane.cc/heti/heti.min.css">
   <style>
     :root {
       --primary-color: #0066cc;
@@ -15,6 +16,7 @@
       --card-shadow: 0 2px 5px rgba(0,0,0,0.1);
       --card-hover-shadow: 0 8px 25px rgba(0,0,0,0.15);
       --transition-time: 0.3s;
+      --anya-color: #ff69b4; /* 添加粉色变量 */
     }
 
     @media (prefers-color-scheme: dark) {
@@ -24,30 +26,33 @@
         --hover-color: #2a2a2a;
         --card-shadow: 0 2px 5px rgba(255,255,255,0.1);
         --card-hover-shadow: 0 8px 25px rgba(255,255,255,0.15);
+        --anya-color: #ff8dc7; /* 深色模式下的粉色 */
       }
     }
 
     body { 
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      max-width: 1000px; 
+      max-width: 1100px; 
       margin: 0 auto; 
       padding: 40px 20px;
       line-height: 1.6;
       background-color: var(--bg-color);
       color: var(--text-color);
       transition: background-color var(--transition-time);
+      position: relative;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
       position: relative;
     }
 
     .header h1 {
       font-size: 3em;
       margin-bottom: 15px;
-      background: linear-gradient(45deg, #0f213e, #33e0ff);
+      background: linear-gradient(45deg, var(--primary-color), var(--anya-color));
+      background-size: 200% auto;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -66,22 +71,66 @@
       opacity: 0.8;
     }
 
+    /* 右侧图标区域 */
+    .anya-signature {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 8px 15px;
+      border-radius: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .anya-signature:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .anya-logo {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid var(--anya-color);
+      transition: all 0.3s ease;
+    }
+
+    .anya-signature:hover .anya-logo {
+      transform: rotate(15deg);
+    }
+
+    .anya-name {
+      font-weight: 600;
+      color: var(--anya-color);
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+
     .filter-buttons {
       display: flex;
       gap: 10px;
       justify-content: center;
       margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
     .filter-button {
-      padding: 8px 16px;
+      padding: 8px 20px;
       border: none;
-      border-radius: 20px;
+      border-radius: 30px;
       background: transparent;
       color: var(--text-color);
       cursor: pointer;
       transition: all var(--transition-time);
       border: 2px solid var(--primary-color);
+      font-size: 1.05em;
+      font-weight: 500;
     }
 
     .filter-button:hover {
@@ -95,28 +144,35 @@
       color: white;
     }
 
+    /* 添加一个特殊的粉色按钮 */
+    .filter-button[data-filter="course"] {
+      border-color: var(--course-color);
+    }
+
+    .filter-button[data-filter="course"]:hover,
+    .filter-button[data-filter="course"].active {
+      background: var(--course-color);
+    }
+
     .slides-list {
       list-style: none;
       padding: 0;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 25px;
-      perspective: 1000px;
     }
 
     .slides-list li {
-      border-radius: 12px;
+      border-radius: 16px;
       background: var(--bg-color);
       transition: all var(--transition-time);
       box-shadow: var(--card-shadow);
       position: relative;
       overflow: visible;
-      transform-style: preserve-3d;
-      transform: translateZ(0);
     }
 
     .slides-list li:hover {
-      transform: translateY(-5px) rotateX(5deg);
+      transform: translateY(-5px);
       box-shadow: var(--card-hover-shadow);
     }
 
@@ -128,7 +184,7 @@
       text-decoration: none;
       position: relative;
       z-index: 1;
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
     }
 
@@ -153,7 +209,7 @@
 
     .main-slide {
       background: linear-gradient(135deg, #e6f7ff 0%, #ffffff 100%) !important;
-      border-left: 4px solid var(--primary-color);
+      border-left: 5px solid var(--primary-color);
     }
 
     .course-slide {
@@ -171,10 +227,10 @@
       color: white;
       font-weight: 500;
       letter-spacing: 0.5px;
-      transform: translateZ(20px);
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       transition: all var(--transition-time);
       z-index: 2;
+      pointer-events: none;
     }
 
     .tag-course {
@@ -186,7 +242,7 @@
     }
 
     .slides-list li:hover .tag {
-      transform: translateZ(30px) scale(1.1);
+      transform: scale(1.1);
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
@@ -194,9 +250,10 @@
       margin: 40px 0;
       padding: 25px;
       background: var(--hover-color);
-      border-radius: 12px;
+      border-radius: 16px;
       box-shadow: var(--card-shadow);
       transition: all var(--transition-time);
+      /* border-left: 5px solid var(--anya-color); */
     }
 
     .description:hover {
@@ -215,32 +272,31 @@
     .footer {
       margin-top: 60px;
       text-align: center;
-      font-size: 0.9em;
+      font-size: 0.95em;
       color: #666;
       opacity: 0.8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* 添加主题切换按钮 */
-    .theme-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      border-radius: 25px;
-      background: var(--primary-color);
-      border: none;
-      color: white;
-      cursor: pointer;
-      box-shadow: var(--card-shadow);
-      transition: all var(--transition-time);
+    .footer p {
+      margin: 5px 0;
     }
 
-    .theme-toggle:hover {
-      transform: scale(1.1);
+    .footer-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+      border: 2px solid var(--anya-color);
     }
 
-    /* 添加加载动画 */
+    .footer-logo:hover {
+      transform: rotate(360deg);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -255,22 +311,55 @@
     .slides-list li:nth-child(2) { animation-delay: 0.2s; }
     .slides-list li:nth-child(3) { animation-delay: 0.3s; }
     .slides-list li:nth-child(4) { animation-delay: 0.4s; }
+    .slides-list li:nth-child(5) { animation-delay: 0.5s; }
+
+    a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: var(--primary-color);
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+      .anya-signature {
+        position: static;
+        margin: 0 auto 20px;
+        width: fit-content;
+      }
+      
+      .header h1 {
+        font-size: 2.4em;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- 右侧签名 -->
+  <a href="https://github.com/AnyaReese" target="_blank" style="text-decoration: none;">
+    <div class="anya-signature">
+      <img src="anya.jpg" alt="Anya" class="anya-logo">
+      <span class="anya-name">@AnyaReese</span>
+    </div>
+  </a>
+
   <div class="header">
     <h1>幻灯片集合</h1>
+    <p>系统设计及各种主题的幻灯片</p>
   </div>
 
   <div class="filter-buttons">
     <button class="filter-button active" data-filter="all">全部</button>
     <button class="filter-button" data-filter="course">课程</button>
-    <!-- <button class="filter-button" data-filter="main">主要</button> -->
+    <button class="filter-button" data-filter="main">主要</button>
     <button class="filter-button" data-filter="other">其他</button>
   </div>
 
   <div class="description">
-    <!-- <h2>幻灯片导航</h2> -->
+    <h2>关于本站</h2>
     <p>本站托管了多个响应式幻灯片，每个幻灯片都有独立的URL路径。您可以通过下面的链接访问各个幻灯片。</p>
     <p>所有幻灯片均使用 reveal.js 制作，支持全屏浏览和演示者模式。在幻灯片页面按<kbd>F</kbd>键进入全屏，按<kbd>ESC</kbd>退出。</p>
     <p>幻灯片使用了 <a href="https://cdn.tonycrane.cc/heti/heti.js">Heti@tonycrane</a> 插件，支持中日韩繁简体字符的自动转换。</p>
@@ -292,95 +381,37 @@
   </ul>
 
   <div class="footer">
-    <p>使用 reveal-md 和 GitHub Pages 构建 @anyareese2025</p>
+    <!-- <img src="anya.jpg" alt="Anya" class="footer-logo"> -->
+    <p>使用 reveal-md 和 GitHub Pages 构建</p>
+    <p style="color: var(--anya-color);">@AnyaReese 2025</p>
   </div>
 
-  <!-- <button class="theme-toggle" aria-label="切换主题">🌓</button> -->
-
   <script>
-    // 恢复到最初的基础筛选功能
-    document.addEventListener('DOMContentLoaded', function() {
-      // 确保DOM完全加载后才执行脚本
-      console.log('DOM加载完成，准备初始化筛选功能');
-      
+    document.addEventListener('DOMContentLoaded', () => {
       const filterButtons = document.querySelectorAll('.filter-button');
       const slides = document.querySelectorAll('.slides-list li');
       
-      console.log('找到', filterButtons.length, '个筛选按钮');
-      console.log('找到', slides.length, '个幻灯片项');
-      
-      // 为每个按钮注册点击事件
+      // 筛选功能
       filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          console.log('点击了按钮:', this.getAttribute('data-filter'));
-          
+        button.addEventListener('click', () => {
           // 更新按钮状态
           filterButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
+          button.classList.add('active');
           
-          // 获取筛选值
-          const filter = this.getAttribute('data-filter');
-          
-          // 筛选项目
+          // 筛选幻灯片
+          const filter = button.getAttribute('data-filter');
           slides.forEach(slide => {
-            const type = slide.getAttribute('data-type');
-            console.log('幻灯片类型:', type, '筛选条件:', filter);
-            
-            if (filter === 'all' || type === filter) {
+            if (filter === 'all' || slide.getAttribute('data-type') === filter) {
               slide.style.display = '';
+              // 重置动画
+              slide.style.animation = 'none';
+              slide.offsetHeight; // 触发重排
+              slide.style.animation = null;
             } else {
               slide.style.display = 'none';
             }
           });
         });
-      });
-    });
-
-    // 主题切换
-    const themeToggle = document.querySelector('.theme-toggle');
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    function setTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = localStorage.getItem('theme') || 
-        (prefersDarkScheme.matches ? 'dark' : 'light');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-      setTheme(newTheme);
-    });
-
-    // 初始化主题
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-
-    // 添加鼠标移动视差效果
-    document.addEventListener('mousemove', (e) => {
-      const cards = document.querySelectorAll('.slides-list li');
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const angleX = (y - centerY) / 30;
-        const angleY = (centerX - x) / 30;
-        
-        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
-      });
-    });
-
-    // 鼠标离开时重置卡片效果
-    document.addEventListener('mouseleave', () => {
-      const cards = document.querySelectorAll('.slides-list li');
-      cards.forEach(card => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
       });
     });
   </script>

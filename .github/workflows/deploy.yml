@@ -37,6 +37,7 @@ jobs:
           cp -r arvr _site/ || true
           cp custom.css _site/ || true
           cp heti_worker.js _site/ || true
+          cp anya.jpg _site/ || true  # 复制头像图片
           mkdir -p _site/assets
           [ -d "assets" ] && cp -r assets/* _site/assets/ || true
           
