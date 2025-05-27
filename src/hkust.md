@@ -13,23 +13,32 @@ revealOptions:
     width: 1000
 ---
 
+<style>
+:root {
+  --r-main-font: "Times New Roman", "LXGW WenKai Screen", sans-serif;
+  --r-heading-font: "JetBrains Mono", "LXGW WenKai Screen", sans-serif;
+  --r-code-font: "Times New Roman", "LXGW WenKai Screen", sans-serif;
+}
+</style>
+
 <!-- .slide: data-background="hkust/cover.png" -->
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## About Me
+<h2 style="color: #337ab7;">About Me</h2>
 
 <div style="font-size: 0.9em; padding-left: 20px; padding-right: 20px;">
   <p><strong>Zixin Lin (林子昕)</strong> | B.Eng. Candidate in Information Security, Zhejiang University (2022-2026).</p>
   <p>Passionate about leveraging <strong>AI & IoT</strong> for innovative solutions. Currently Team Leader for ZJU-CHINA iGEM 2025 Team.</p>
   
   <!-- <p style="margin-top:15px; font-size: 0.9em;"><strong>Academic Background:</strong></p> -->
+  <p style="margin-top:15px; font-size: 0.9em;"><strong>Academic Background:</strong></p>
   <ul style="font-size: 0.9em;">
     <li><strong>Zhejiang University (2022 – 2026):</strong> 
       <ul style="font-size: 0.9em;">
         <li>Information Security (CS & Tech) | GPA: 3.93/4.3 </li>
-        <li>Relevant Courses: CompSys (98), SW Security (99), CTF Practice (99).</li>
+        <li>Relevant Courses: Computer System (98), Software Security (99), CTF Practice (99), Computer Network Security (91)</li>
       </ul>
     </li>
     <li style="margin-top:10px;"><strong>University of California, Irvine (Summer 2024):</strong> 
@@ -47,7 +56,7 @@ revealOptions:
 <div class="middle center">
 <div style="width: 100%">
 
-# Publications
+<h1 style="color: #337ab7;">Publications</h1>
 
 </div>
 </div>
@@ -56,7 +65,7 @@ revealOptions:
 <!-- .slide: data-background="hkust/background.png" -->
 
 
-## Publications in AI field
+<h2 style="color: #337ab7;">Publications in AI field</h2>
 
 <div style="font-size: 0.82em; line-height: 1.45; padding-left: 25px; padding-right: 25px;">
   <p style="margin-bottom: 12px;">
@@ -84,7 +93,7 @@ revealOptions:
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## Publications in IoT field
+<h2 style="color: #337ab7;">Publications in IoT field</h2>
 
   <p style="margin-bottom: 12px;">
     <strong>DiskSpy: Exploring a Long-Range Covert-Channel Attack via mmWave Sensing of &mu;m-level HDD Vibrations</strong><br>
@@ -93,17 +102,17 @@ revealOptions:
   </p>
   <p>
     <strong>Practical EMI Attacks on Smartphones With Users' Commands Cancelled</strong><br>
-    <em>IEEE Trans. Dependable Secur. Comput. (TDSC)</em><br>
+    <em>IEEE Trans. Dependable Secur. Comput. 2024 (Accepted)</em><br>
     <span style="font-size: 0.85em; color: #333;">Ming Gao, Fu Xiao, Wentao Guo, <strong>Zixin Lin</strong>, Weiran Liu, Jinsong Han</span>
   </p>
 </div>
 
 <div class = 'mul-cols'>
   <div class = 'col'>
-    <img src="hkust/diskspy.png" alt="USENIX Security Symposium 2025" style="width: 80%; display: block; margin: 0 auto;">
+    <img src="hkust/diskspy.png" alt="USENIX Security Symposium 2025" style="width: 90%; display: block; margin: 0 auto;">
   </div>
   <div class = 'col'>
-    <img src="hkust/emi.png" alt="IEEE Trans. Dependable Secur. Comput. (TDSC)" style="width: 80%; display: block; margin: 0 auto;">
+    <img src="hkust/emi.png" alt="IEEE Trans. Dependable Secur. Comput. (TDSC)" style="width: 90%; display: block; margin: 0 auto;">
   </div>
   </div>
 </div>
@@ -113,7 +122,7 @@ revealOptions:
 <div class="middle center">
 <div style="width: 100%">
 
-# Innovation & Project
+<h1 style="color: #337ab7;">Innovation & Project</h1>
 
 </div>
 </div>
@@ -121,44 +130,46 @@ revealOptions:
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## LumaManta: Marine Protect System
+<h2 style="color: #337ab7;">LumaManta: Marine Protect System</h2>
 
 - **Project & Goals:** Targeting Gold in <strong>iGEM 2025</strong> with an integrated underwater system for multi-pollutant detection, quantification, & in-situ treatment to combat marine pollution.
 
 
 <div class = 'mul-cols'>
   <div class = 'col'>
-    <img src="hkust/poster.png" alt="LumaManta" style="width: 60%; display: block; margin: 0.15em 2em;">
+    <img src="hkust/poster.png" alt="LumaManta" style="width: 65%; display: block; margin: 0.15em 2em;">
   </div>
   <div class = 'col'>
     <p style="font-size: 0.6em; margin: 0 0"><strong>My Role:</strong> Team Leader, ZJU-CHINA iGEM Team (selected after leading the development of a comprehensive proposal & wiki for the competitive university team trials).</p>
-    <img src="hkust/igem-wp.png" alt="ZJU-CHINA iGEM 2025" style="width: 70%; display: block; margin: 0.4em auto;">
+    <img src="hkust/igem-wp0.png" alt="ZJU-CHINA iGEM 2025" style="width: 60%; display: block; margin: 0.1em auto;">
+    <img src="hkust/igem-wp.png" alt="ZJU-CHINA iGEM 2025" style="width: 60%; display: block; margin: 0.2em auto;">
   </div>
 </div>
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## DragonZhu: AIGC Detection Tool
+<h2 style="color: #337ab7;">DragonZhu: AIGC Detection Tool</h2>
 
 - **Project & Achievements:** Developed and deployed a web-based platform for detecting multimodal AI-Generated Content (text, images, audio, video). The project achieved a **National Gold Award** in the China "Internet+" Innovation and Entrepreneurship Competition.
 - **My Role:** Team member, involved in developing the user-friendly interface, data processing capabilities, and backend services for API interaction and result visualization.
 
-<img src="hkust/aigc.png" alt="DragonZhu" style="width: 55%; display: block; margin: 0.15em auto;">
+<img src="hkust/aigc.png" alt="DragonZhu" style="width: 70%; display: block; margin: 0.15em auto;">
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
-## XRoot CPU: RISC-V System
+<h2 style="color: #337ab7;">XRoot CPU: RISC-V System</h2>
 
-- **Project & Achievements:** Designed and implemented a complete computer system, from a 64-bit RISC-V processor (hardware) to an OS kernel with multitasking and memory management (software). The work was featured in the "Computer System Interdisciplinary Course Experiment Guide (RISC-V Architecture)".
-- **My Role:** Initially completed individual full-stack (hardware & software) development. In the final team-based hardware-software co-design phase, responsible for the software component.
+- <strong>Full-Stack RISC-V System:</strong> Engineered a <strong>complete 64-bit RISC-V computer system</strong>, from processor hardware to a multitasking OS kernel.
+    - This work is <strong>featured</strong> in the "Computer System Interdisciplinary Course Experiment Guide (RISC-V Architecture)" by Prof. Chang.
+- <strong>My Role:</strong> Completed initial <strong>full-stack (HW & SW) development</strong>, and later spearheaded the <strong>software component</strong> in the team-based co-design.
 
 <div class = 'mul-cols'>
   <div class = 'col'>
-    <img src="hkust/xpart.png" alt="XRoot CPU" style="width: 65%; display: block; margin: 0.15em 2em;">
+    <img src="hkust/xpart.png" alt="XRoot CPU" style="width: 100%; display: block; margin: 0.15em 2em;">
   </div>
   <div class = 'col'>
-    <img src="hkust/risc.png" alt="XRoot CPU" style="width: 70%; display: block; margin: 0.4em auto;">
+    <img src="hkust/risc.png" alt="XRoot CPU" style="width: 80%; display: block; margin: 1em auto;">
   </div>
 </div>
 
@@ -168,7 +179,7 @@ revealOptions:
 <div class="middle center">
 <div style="width: 100%">
 
-# Why InnoBay & Why Me
+<h1 style="color: #337ab7;">Why InnoBay & Why Me</h1>
 
 </div>
 </div>
@@ -176,7 +187,7 @@ revealOptions:
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## How I Can Contribute to InnoBay
+<h2 style="color: #337ab7;">How I Can Contribute to InnoBay</h2>
 
 *   **Marine Tech Alignment:** My **LumaManta (iGEM 2025)** leadership, developing an *intelligent underwater system for marine pollution*, directly fits InnoBay's theme, bringing hands-on marine solution experience.
 
@@ -189,7 +200,7 @@ revealOptions:
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## My Aspirations
+<h2 style="color: #337ab7;">My Aspirations</h2>
 
 *   **Learn from Experts:** Gain insights from **HKUST professors & industry leaders** on applying cutting-edge tech to real-world problems.
 
@@ -202,7 +213,7 @@ revealOptions:
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## Core Skills
+<h2 style="color: #337ab7;">Core Skills</h2>
 
 - **Programming Languages:**
   - Python, C, C++, Java, JavaScript
