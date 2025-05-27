@@ -178,28 +178,26 @@ revealOptions:
 
 ## How I Can Contribute to InnoBay
 
-<!-- - **Technical Expertise:**
-  - Strong foundation in **AI, IoT, cybersecurity, and software/hardware systems**.
-  - Proven ability in developing **end-to-end solutions** (e.g., LumaManta, AIGC tool).
-- **Innovation & Problem-Solving:**
-  - Passionate about applying technology to **real-world problems**, especially marine conservation.
-  - Experience in identifying challenges and architecting innovative technical solutions (demonstrated in iGEM project).
-- **Leadership & Collaboration:**
-  - **Team Leader for ZJU-CHINA iGEM**, experienced in guiding a multidisciplinary team towards a common goal.
-  - Eager to **collaborate with diverse peers** and mentors at InnoBay.
-- **Greater Bay Area Focus:**
-  - Keen to explore and contribute to the **innovation ecosystem in the GBA**, particularly in marine technology. -->
+*   **Marine Tech Alignment:** My **LumaManta (iGEM 2025)** leadership, developing an *intelligent underwater system for marine pollution*, directly fits InnoBay's theme, bringing hands-on marine solution experience.
+
+*   **Proven Technical & Prototyping Skills:** **XRoot CPU** (HW/SW co-design) & the award-winning **DragonZhu AIGC Tool** demonstrate strong *solution development, technology realization*, and experience in taking ideas to *prototypes & pitches*.
+
+*   **Innovation & Entrepreneurial Spirit:** National Gold for DragonZhu & iGEM leadership highlight my *entrepreneurial drive*; eager for *GBA cross-border collaboration*.
+
+*   **Collaborative Mindset:** As iGEM Team Leader, practiced in *interdisciplinary teamwork*, essential for tackling complex marine tech challenges.
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
-## Aspirations for InnoBay Bootcamp 2025
+## My Aspirations
 
-<!-- - To **enhance my interdisciplinary knowledge** and practical skills in innovation and entrepreneurship.
-- To **collaborate with talented individuals** from diverse backgrounds, fostering new ideas and perspectives.
-- To deeply engage with **marine challenges** and contribute to developing impactful solutions.
-- To **explore and contribute to the vibrant innovation landscape** of the Greater Bay Area.
-- To transform technical explorations into **tangible entrepreneurial practices**. -->
+*   **Learn from Experts:** Gain insights from **HKUST professors & industry leaders** on applying cutting-edge tech to real-world problems.
+
+*   **Master Innovation Lifecycle:** Experience the full journey from product definition & user research to *prototyping & commercialization strategies* in HKUST's *labs & maker spaces*.
+
+*   **Engage with GBA Ecosystem:** Connect with the **GBA innovation hub**, explore Dongguan's manufacturing, & learn to leverage regional policies/funding for impactful solutions.
+
+*   **Turn Ideas into Impact:** Enhance ability to create **tangible marine tech solutions** & explore HKUST MPhil/MSc pathways in technology innovation.
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
@@ -219,12 +217,6 @@ revealOptions:
   - Mandarin (Native)
 
 <!--s-->
-<!-- .slide: data-background="hkust/background.png" -->
+<!-- .slide: data-background="hkust/end.png" -->
 
-<div class="middle center">
-<div style="width: 100%">
 
-# Questions?
-
-</div>
-</div>
