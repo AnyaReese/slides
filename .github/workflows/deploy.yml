@@ -35,6 +35,7 @@ jobs:
           # 首先复制所有资源文件到_site目录
           cp -r sys3 _site/ || true
           cp -r arvr _site/ || true
+          cp -r hkust _site/ || true
           cp custom.css _site/ || true
           cp heti_worker.js _site/ || true
           cp anya.jpg _site/ || true  # 复制头像图片
@@ -63,6 +64,7 @@ jobs:
               # 修正背景路径，确保在子目录中也能找到
               sed -e 's|data-background="sys3/|data-background="../sys3/|g' \
                   -e 's|data-background="arvr/|data-background="../arvr/|g' \
+                  -e 's|data-background="hkust/|data-background="../hkust/|g' \
                   "$slide_md" > "${slide_md}.tmp"
               
               # 为该幻灯片创建子目录
@@ -81,6 +83,7 @@ jobs:
               mkdir -p "_site/$filename/sys3" "_site/$filename/arvr"
               cp -r sys3/* "_site/$filename/sys3/" || true
               cp -r arvr/* "_site/$filename/arvr/" || true
+              cp -r hkust/* "_site/$filename/hkust/" || true
               
               # 删除临时文件
               rm "${slide_md}.tmp"

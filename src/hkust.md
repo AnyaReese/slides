@@ -12,7 +12,9 @@ revealOptions:
     slideNumber: "c/t"
     width: 1000
 ---
+
 <!-- .slide: data-background="hkust/cover.png" -->
+
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
 
@@ -22,15 +24,21 @@ revealOptions:
   <p><strong>Zixin Lin (林子昕)</strong> | B.Eng. Candidate in Information Security, Zhejiang University (2022-2026).</p>
   <p>Passionate about leveraging <strong>AI & IoT</strong> for innovative solutions. Currently Team Leader for ZJU-CHINA iGEM 2025 Team.</p>
   
-  <p style="margin-top:15px; font-size: 0.9em;"><strong>Academic Background:</strong></p>
-  <p><strong>Zhejiang University (2022 – 2026):</strong> 
-    Major: Information Security (CS & Tech) | GPA: 3.93/4.3 (86.6/100). 
-    Relevant Courses: CompSys (98), SW Security (99), CTF Practice (99).
-  </p>
-  <p style="margin-top:10px;"><strong>University of California, Irvine (Summer 2024):</strong> 
-    AI Summer Program. 
-    Relevant Courses: Intro to ML & AI (A+), Acad. Writing (A+).
-  </p>
+  <!-- <p style="margin-top:15px; font-size: 0.9em;"><strong>Academic Background:</strong></p> -->
+  <ul style="font-size: 0.9em;">
+    <li><strong>Zhejiang University (2022 – 2026):</strong> 
+      <ul style="font-size: 0.9em;">
+        <li>Information Security (CS & Tech) | GPA: 3.93/4.3 </li>
+        <li>Relevant Courses: CompSys (98), SW Security (99), CTF Practice (99).</li>
+      </ul>
+    </li>
+    <li style="margin-top:10px;"><strong>University of California, Irvine (Summer 2024):</strong> 
+      <ul style="font-size: 0.9em;">
+        <li>AI Summer Program</li>
+        <li>Relevant Courses: Introduction to ML & AI (A+), Academic Writing (A+).</li>
+      </ul>
+    </li>
+  </ul>
 </div>
 
 <!--s-->
@@ -75,7 +83,8 @@ revealOptions:
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
-## Publications in IoT
+
+## Publications in IoT field
 
   <p style="margin-bottom: 12px;">
     <strong>DiskSpy: Exploring a Long-Range Covert-Channel Attack via mmWave Sensing of &mu;m-level HDD Vibrations</strong><br>
@@ -110,12 +119,8 @@ revealOptions:
 </div>
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
-## Innovation & Project
 
-<div style="text-align: center; margin-bottom: 20px;">
-  <h3 style="color: #005A8C;">AIGC Content Detection Tool</h3>
-  <p style="color: #0077B6; font-style: italic;">China "Internet+" Innovation and Entrepreneurship Competition - National Gold Award</p>
-</div>
+## DragonZhu: AIGC Detection Tool
 
 - **Project:** Developed and deployed a web-based platform for detecting multimodal AI-Generated Content (text, images, audio, video).
 <!-- - **My Role & Contribution:**
@@ -127,7 +132,8 @@ revealOptions:
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
-### LumaManta: Intelligent Marine Pollutant Detection & Treatment System (iGEM 2025)
+
+## LumaManta: Marine System
 
 - **My Role:** Team Leader, ZJU-CHINA iGEM Team
 <!-- - **Focus:** Developing an integrated underwater solution for:
@@ -141,7 +147,7 @@ revealOptions:
 
 <!--v-->
 <!-- .slide: data-background="hkust/background.png" -->
-### XRoot CPU: RISC-V System Development
+## XRoot CPU: RISC-V System
 
 - **Project:** From foundational hardware (64-bit RISC-V processor) to core software (OS kernel with multitasking and memory management).
 <!-- - **Achievement:** Successfully designed and implemented a complete computer system.
