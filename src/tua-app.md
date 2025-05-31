@@ -25,16 +25,20 @@ revealOptions:
 
 
 <!--v-->
-<!-- .slide: data-background="tua-app/background.png" -->
+<!-- .slide: data-background="tua-app/content.png" -->
 
 <h2 style="color: #337ab7;">Content</h2>
 
-- Introduction
-- Background
-- Methodology
-- Data Overview
-- Conclusion
-- References
+<!--s-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<div class="middle center">
+<div style="width: 100%">
+
+<h1 style="color: #337ab7;">Introduction</h1>
+
+</div>
+</div>
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
@@ -47,11 +51,11 @@ These apps are often banned or restricted on mainstream app stores and include:
 <div class = 'mul-cols'>
   <div class = 'col'>
     <ul>
-            <li>Pornographic content</li>
-            <li>Gambling platforms</li>
-            <li>Pirated software</li>
-            <li>Apps involved in fraud, phishing, and privacy violations</li>
-        </ul>
+        <li>Pornographic content</li>
+        <li>Gambling platforms</li>
+        <li>Pirated software</li>
+        <li>Apps involved in fraud, phishing, and privacy violations</li>
+    </ul>
   </div>
   <div class = 'col'>
     <img src="tua-app/tg-intro.png" style="width: 80%">
@@ -62,77 +66,196 @@ These apps are often banned or restricted on mainstream app stores and include:
   </div>
 </div>
 
+These threats highlight the urgent need to understand how such apps are disseminated at scale — particularly through Telegram's bot-assisted and channel-based infrastructure.
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Introduction</h2>
+
 In this project, we aim to systematically collect, extract, and identify Telegram URLs associated with underground app distribution through multi-stage automation, providing a foundation for further analysis.
 
-<!--s-->
-<!-- .slide: data-background="tua-app/background.png" -->
-
-<h2 style="color: #337ab7;">Background</h2>
-
-- Underground apps often hide behind:
-  - Search bots that **promote links via keywords**
-  - Forwarded messages across **interlinked channels**
-- Prior study [Guo et al., ACM IMC 2024]:
-  - Used 300+ keywords and multiple bots
-  - Retrieved 70k+ potential channels
-- Our task replicates and engineers this discovery pipeline.
+Specifically, we aim to:
+- **Discover** underground Telegram channels using search bots and keywords.
+- **Extract** all URLs from the historical messages of those channels.
+- **Identify** app download pages by analyzing URL content (e.g., download, Android, iOS).
+- **Validate** and collect **at least 200 effective app download URLs**.
+- **Deliver** a final report including:
+  - The discovered channels
+  - The validated download URLs
+  - Technical workflow and key findings
 
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-<h2 style="color: #337ab7;">Methodology</h2>
+<div class="middle center">
+<div style="width: 100%">
 
-**Step 1: Collect Bots and Keywords**
+<h1 style="color: #337ab7;">Background</h1>
+
+</div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Background: Telegram Ecosystem</h2>
+
+Telegram is a cross-platform encrypted messaging app with **800M+ users**.
+- It supports public and private **channels** and **groups**, allowing admins to broadcast content to large audiences.
+- Telegram enables **anonymous interaction**, lacks **moderation**, and supports **mass forwarding**, making it ideal for underground distribution.
+<!-- - Researchers often treat both channels and groups as “channels” for simplicity. -->
+- It has evolved into a **cybercrime ecosystem**, including: Money laundering, financial fraud, Piracy and revenge porn, Trade of personal information
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/tg-ecosystem.png" style="width: 50%;" class="center">
+  </div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Background: Bots in Telegram</h2>
+
+
+- Telegram’s Bot API allows developers to create bots for automation.
+- "Search bots" offer keyword-triggered channel recommendations.
+- Many **underground actors buy keyword slots** (e.g., “VPN”, “Baccarat”) to promote their channels in top ranks.
+- Channels listed under paid results are **strategically boosted** to reach wider audiences.
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/tg-bot.png" style="width:65%; margin-left: 120px;">
+  </div>
+<div class="col">
+    <img src="tua-app/tg-bot2.png" style="width: 65%;" class="center">
+  </div>
+  <div class="col">
+    <img src="tua-app/tg-bot3.png" style="width: 65%;" class="left">
+  </div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Background: App Package</h2>
+
+Android and iOS, the two dominant mobile operating systems, employ distinct app installation package formats and distribution mechanisms.
+
+<div class="mul-cols">
+  <div class="col">
+    <p><strong>Android: Open but Vulnerable</strong></p>
+    <ul>
+      <li>Uses <span style="color: #337ab7;">.apk</span> format (Android Package Kit)</li>
+      <li>Users can sideload apps from unofficial sources (web links, Telegram, marketplaces)</li>
+      <!-- <li>This openness enables underground developers to bypass app store vetting</li> -->
+    </ul>
+    <img src="tua-app/apk.png" style="width: 70%;" class="center" style="margin-top: 0;">
+  </div>
+<div class="col">
+
+<p><strong>iOS: Closed but Not Impenetrable</strong></p>
+    <ul>
+      <li>Uses <span style="color: #337ab7;">.ipa</span> format (iOS App Store Package)</li>
+      <li>Installation usually limited to App Store</li>
+      <li>However, alternative channels exist:</li>
+      <ul>
+        <li>TestFlight (for testing)</li>
+        <li>Enterprise Signing</li>
+        <li>WebClip (browser shortcut to apps)</li>
+      </ul>
+    </ul>
+    <img src="tua-app/testflight.png" style="width: 60%;" class="center" style="margin-top: 0;">
+  </div>
+
+</div>
+
+
+
+
+<!--s-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<div class="middle center">
+<div style="width: 100%">
+
+<h1 style="color: #337ab7;">Methodology</h1>
+
+</div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Workflow</h2>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Step1: Collect Bots and Channels</h2>
 
 - Collected top 15 Telegram bots (e.g. `@hao1234bot`)  
 - Compiled 300 keywords in **Chinese and English**  
   > e.g., "VPN", "91", "Crack", "Young girl", "暗网"
 
+...
 
-- For each bot:
+<!-- - For each bot:
   - Automatically join chat
   - Randomly send 2-3 keywords
-  - Parse returned message(s) for t.me/channel links
+  - Parse returned message(s) for t.me/channel links -->
+
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-**Step2
+<h2 style="color: #337ab7;">Step2: Extract URLs from Bots</h2>
 
 - Some bots return raw text with embedded links.
 - Used regex-based extraction instead of entity objects:
+
 ```python
 re.findall(r'https?://t\.me/\w+', message.message)
 ```
 
+...
+
 <!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
 
-<h3 style="color: #337ab7;">Step 3: Export to `url.csv`</h3>
+<h2 style="color: #337ab7;">Step3: Identify App Pages</h3>
 
-- Collected (URL, Source Bot ID)
-- Output format:
-```csv
-url,channel_id
-https://t.me/example1,12345678
-https://t.me/example2,87654321
-```
 
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-<h2 style="color: #337ab7;">Data Overview</h2>
+<div class="middle center">
+<div style="width: 100%">
 
-| Item              | Count     |
-|-------------------|-----------|
-| Bots Collected    | 15        |
-| Keywords Used     | 300       |
-| Keyword/Bot Queries | 500+    |
-| Channels Identified | ~2000   |
-| Valid URLs Extracted | 1400+  |
-| Output Format     | `.csv`    |
+<h1 style="color: #337ab7;">Data Analysis</h1>
+
+</div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+...
 
 
 <!--s-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<div class="middle center">
+<div style="width: 100%">
+
+<h1 style="color: #337ab7;">Conclusion</h1>
+
+</div>
+</div>
+
+<!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
 <h2 style="color: #337ab7;">Conclusion</h2>
