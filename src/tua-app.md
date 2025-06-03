@@ -17,7 +17,7 @@ revealOptions:
 :root {
   --r-main-font: "Times New Roman", "LXGW WenKai Screen", sans-serif;
   --r-heading-font: "JetBrains Mono", "LXGW WenKai Screen", sans-serif;
-  --r-code-font: "Times New Roman", "LXGW WenKai Screen", sans-serif;
+  --r-code-font: "JetBrains Mono", "LXGW WenKai Screen", sans-serif;
 }
 </style>
 
@@ -107,11 +107,12 @@ Telegram is a cross-platform encrypted messaging app with **800M+ users**.
 <!-- - Researchers often treat both channels and groups as “channels” for simplicity. -->
 - It has evolved into a **cybercrime ecosystem**, including: Money laundering, financial fraud, Piracy and revenge porn, Trade of personal information
 
-<div class="mul-cols">
-  <div class="col">
-    <img src="tua-app/tg-ecosystem.png" style="width: 50%;" class="center">
-  </div>
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
+  <img src="tua-app/tg-eco.png" style="max-width: 45%; height: auto;">
+  <img src="tua-app/tg-eco2.png" style="max-width: 16%; margin-top: 1;" >
 </div>
+
+
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
@@ -172,8 +173,6 @@ Android and iOS, the two dominant mobile operating systems, employ distinct app 
 </div>
 
 
-
-
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
@@ -190,42 +189,94 @@ Android and iOS, the two dominant mobile operating systems, employ distinct app 
 
 <h2 style="color: #337ab7;">Workflow</h2>
 
+Our workflow involves three key stages:
+
+- **Identifying Relevant Channels:** We utilized a curated list of keywords with Telegram bots to discover relevant channels.
+<!-- This approach yielded over 200 channels for further investigation. -->
+
+- **Gathering Possible URLs:** The message history from these identified channels was systematically collected and parsed.
+<!-- From this data, we extracted over 10,000 potential URLs linking to external resources. -->
+
+- **App Collection & Validation:** The collected URLs are currently being processed using Optical Character Recognition (OCR) to identify and extract application information.
+<!-- The final number of validated applications from this stage is currently being determined. -->
+
+<img src="tua-app/workflow.png" style="width: 100%;" class="center">
+
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
 <h2 style="color: #337ab7;">Step1: Collect Bots and Channels</h2>
 
-- Collected top 15 Telegram bots (e.g. `@hao1234bot`)  
-- Compiled 300 keywords in **Chinese and English**  
-  > e.g., "VPN", "91", "Crack", "Young girl", "暗网"
+- Registered a Telegram developer account and obtained *api_id* and *api_hash*:
+- Applied for API keys at [core.telegram.org](https://core.telegram.org/api/obtaining_api_id) and used [Telethon](https://docs.telethon.dev/en/stable/index.html) to interact with Telegram
+- Collected top 15 Telegram bots (e.g. *@hao1234bot*)  
+- Compiled keywords in **Chinese and English**  
+  > e.g., "VPN", "91", "Crack", "porn", "百家乐"
 
+```rust
+with open('300keywords.txt', 'r') as f:
+    keywords = list(set(keyword.strip() for keyword in f.read().splitlines() if keyword.strip()))
+random.shuffle(keywords)
 ...
-
-<!-- - For each bot:
-  - Automatically join chat
-  - Randomly send 2-3 keywords
-  - Parse returned message(s) for t.me/channel links -->
-
+async with client.conversation(entity) as conv:
+    words = random.sample(keywords, keyword_num)
+    for word in words:
+      try:
+        await conv.send_message(word)
+```
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
 <h2 style="color: #337ab7;">Step2: Extract URLs from Bots</h2>
 
-- Some bots return raw text with embedded links.
-- Used regex-based extraction instead of entity objects:
+- Used Telethon to collect all messages from each identified channel
+- Parsed historical messages (limit: 1000 messages per channel)
+- Extracted *t.me/...* links from message entities
+- Avoided crawling outdated or inactive links
 
-```python
+```rust
 re.findall(r'https?://t\.me/\w+', message.message)
 ```
 
-...
+```rust
+# Adjust limit to control the number of messages to be processed
+async for message in client.iter_messages(entity, limit=1000):
+  try:
+    if message.entities:
+      for msg in message.entities:
+        if hasattr(msg, 'url'):
+          urls.append(msg.url)
+  except:
+    print(f'Error processing message {message} in {entity.title}')
+      continue
+```
+
+<!-- - Filtered and deduplicated URLs -->
+
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
 <h2 style="color: #337ab7;">Step3: Identify App Pages</h3>
 
+- **Filtered** collected URLs to remove irrelevant or repeated domains
+- Opened each URL using headless Chrome (Selenium)
+- Captured **screenshots** after interacting with typical buttons like "进入", "Continue"
+- Applied OCR using **PaddleOCR**, extracting keywords like:
+  > download, iOS, apk, android, app
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/app-sample.png" style="width: 75%; margin-left: 60px; margin-top: 0px;" class="center">
+  </div>
+  <div class="col">
+    <img src="tua-app/app-sample2.png" style="width: 60%; margin-left: 40px; margin-top: 0px;" class="center">
+  </div>
+  <div class="col">
+    <img src="tua-app/app-sample1.png" style="width: 90%; margin-left: 10px; margin-top: 0px;" class="center">
+  </div>
+</div>
 
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
@@ -258,30 +309,67 @@ re.findall(r'https?://t\.me/\w+', message.message)
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-<h2 style="color: #337ab7;">Conclusion</h2>
+<h2 style="color: #337ab7;">Challenges Encountered</h2>
 
-- We implemented a **semi-automated crawler** to interact with Telegram search bots.
-- Successfully extracted **1400+ URLs** pointing to potentially underground app promotion channels.
-- This list is the foundation for:
-  - Historical message crawling (Stage 2)
-  - App promotion link identification (Stage 3)
+- **Bot Interaction Rate Limiting:** Aggressive keyword probing led to temporary bans due to suspected spamming. We mitigated this by introducing **randomized delays** (asyncio.sleep) and timeouts for unresponsive bots.
 
-> 🔜 Next: Crawl messages & detect promotion patterns.
+- **Entity Type Ambiguity:** t.me/ links may refer to Channel, Chat, or User entities. Telethon APIs require precise type handling—**heuristic algorithms** were added to ensure safe access.
 
+- **Region Restrictions:** To counter regional restrictions, we employed VPN tunneling and alternate Apple ID environments to simulate compliant locales.
+
+- **Mental Health:** Insulted by TUApp users and shattered by massive urls.
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/ban.png" style="width: 80%; margin-top: 0px; margin-left: 50px;" class="center">
+  </div>
+  <div class="col">
+    <img src="tua-app/app.png" style="width: 70%; margin-top: 0px; margin-left: 50px;" class="center">
+  </div>
+  <div class="col">
+    <img src="tua-app/insult.png" style="width: 85%; margin-top: 0px; margin-left: 10px;" class="center">
+  </div>
+</div>
 
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-<h2 style="color: #337ab7;">Challenges Encountered</h2>
+<h2 style="color: #337ab7;">Conclusion</h2>
 
-- ❗ Some bots do not return links but plain text
-- ❗ Flooding too many messages leads to muted accounts
-- ❗ Channel links are ephemeral — many were **deleted within 24h**
-- ✅ Solved with:
-  - Regex fallback parsing
-  - `asyncio.sleep()` between queries
-  - Repeated crawling rounds
+- We implemented a **semi-automated pipeline** to identify Telegram channels promoting underground apps.
+- Our method combined **bot-driven discovery**, **regex-based URL extraction**, **headless browser screenshots**, and **OCR-based keyword recognition**.
+- This enabled us to extract and filter **over 200 high-signal URLs** linked to illicit distribution.
+- These findings help uncover Telegram’s role in **unregulated app dissemination**, particularly in **Chinese-speaking contexts** where censorship drives alternative distribution.
+- Future work can leverage this pipeline to:
+  - Expand to **private channels or one-on-one bots**
+  - Incorporate **code similarity detection** for app binaries
+  - Develop **automated flagging systems** based on message patterns and visual clues
 
+<!--s-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<div class="middle center">
+<div style="width: 100%">
+
+<h1 style="color: #337ab7;">References</h1>
+
+</div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">References</h2>
+
+<ul style="font-size: 1.1em;">
+  <li>Y. Guo, D. Wang, L. Wang, Y. Fang, C. Wang, M. Yang, T. Liu, H. Wang. <i>Beyond App Markets: Demystifying Underground Mobile App Distribution Via Telegram</i>. ACM PACM IMC, Vol. 8, No. 3, Article 33, 2024.</li>
+  <li>Telegram. <i>Telegram Bot API</i>. <a href="https://core.telegram.org/bots/api">https://core.telegram.org/bots/api</a></li>
+  <li>Lonami. <i>Telethon: Pure Python MTProto Telegram Client</i>. <a href="https://github.com/LonamiWebs/Telethon">https://github.com/LonamiWebs/Telethon</a></li>
+  <li>Apple Inc. <i>A Threat Analysis of Sideloading</i>. <a href="https://www.apple.com/privacy/docs/Building_a_Trusted_Ecosystem_for_Millions_of_Apps_A_Threat_Analysis_of_Sideloading.pdf">PDF</a></li>
+  <li>Sixgill. <i>Telegram: A Cybercriminal Hotspot</i>. <a href="https://cybersixgill.com/news/articles/telegram-a-cybercriminal-hotspot-compromised-financial-accounts">Link</a></li>
+  <li>10Guards. <i>Is Telegram Turning into a Hub for Cybercrime?</i> <a href="https://10guards.com/en/articles/is-telegram-turning-into-a-hub-for-cybercrime-activities/">Link</a></li>
+  <li>Kaspersky. <i>Trojan.AndroidOS.Piom.bbdw</i>. <a href="https://threats.kaspersky.com/en/threat/Trojan.AndroidOS.Piom.bbdw/">Link</a></li>
+</ul>
 
 <!--s-->
 <!-- .slide: data-background="tua-app/end.png" -->

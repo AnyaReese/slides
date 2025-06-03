@@ -1,12 +1,14 @@
-.PHONY: live live-all build build-all clean
+.PHONY: live live-all build build-all clean tua-app
 
 live:
-	@echo "Previewing system design slides..."
-	-@reveal-md sys.md -w --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html || true
+	@echo "Previewing system design slides at http://localhost:1948/sys.md#/"
+	-@open "http://localhost:1948/sys.md#/" 2>/dev/null || xdg-open "http://localhost:1948/sys.md#/" 2>/dev/null || true
+	-@reveal-md sys.md -w --disable-auto-open --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html || true
 
 live-%:
-	@echo "Previewing $* slides..."
-	-@reveal-md $*.md -w --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html || true
+	@echo "Previewing $* slides at http://localhost:1948/$*.md#/"
+	-@open "http://localhost:1948/$*.md#/" 2>/dev/null || xdg-open "http://localhost:1948/$*.md#/" 2>/dev/null || true
+	-@reveal-md $*.md -w --disable-auto-open --scripts https://cdn.tonycrane.cc/heti/heti.js,heti_worker.js --template template.html || true
 
 live-all:
 	@echo "Choose a specific slide to preview:"
@@ -86,22 +88,15 @@ build:
 		echo "</body>" >> ../site/index.html; \
 		echo "</html>" >> ../site/index.html; \
 	fi
-	
-	@echo "Creating slides index..."
-	@echo "<!DOCTYPE html>" > ../site/slides.html
-	@echo "<html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" >> ../site/slides.html
-	@echo "<title>幻灯片索引</title><link rel=\"stylesheet\" href=\"custom.css\"><style>" >> ../site/slides.html
-	@echo "body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;max-width:800px;margin:0 auto;padding:20px}" >> ../site/slides.html
-	@echo ".slides-list{list-style:none;padding:0}.slides-list li{margin:15px 0;padding:15px;border-radius:8px;background:#f5f5f5}" >> ../site/slides.html
-	@echo ".slides-list a{display:block;font-size:1.2em;color:#333;text-decoration:none}.slides-list a:hover{color:#0066cc}" >> ../site/slides.html
-	@echo "h1{margin-bottom:30px}</style></head><body><h1>幻灯片索引</h1><ul class=\"slides-list\">" >> ../site/slides.html
-	@echo "<li><a href=\"./\">首页</a></li>$$ALL_SLIDES" >> ../site/slides.html
-	@echo "</ul></body></html>" >> ../site/slides.html
-	
-	@echo "Build complete!"
-
-build-all: build
 
 clean:
 	@echo "Cleaning up..."
 	rm -rf ../site/
+
+# Dynamic aliases: allow `make <name>` → `make live-<name>`
+DYNAMIC_TARGETS := $(filter-out live, $(patsubst %.md,%,$(wildcard *.md)))
+
+$(DYNAMIC_TARGETS):
+	@$(MAKE) live-$@
+
+.PHONY: $(DYNAMIC_TARGETS)

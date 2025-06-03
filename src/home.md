@@ -35,4 +35,4 @@
 
 ## 感谢使用！
 
-这个系统由 reveal-md 和 GitHub Actions 提供支持。 
+这个系统由 reveal-md 和 GitHub Actions 提供支持。 template 来源@TonyCrane: https://github.com/TonyCrane/slide-template/
