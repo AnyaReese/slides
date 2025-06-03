@@ -109,7 +109,7 @@ Telegram is a cross-platform encrypted messaging app with **800M+ users**.
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 40px;">
   <img src="tua-app/tg-eco.png" style="max-width: 45%; height: auto;">
-  <img src="tua-app/tg-eco2.png" style="max-width: 16%; margin-top: 1;" >
+  <img src="tua-app/tg-eco2.png" style="max-width: 25%; margin-top: 1;" >
 </div>
 
 
