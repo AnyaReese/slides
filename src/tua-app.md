@@ -197,7 +197,7 @@ Our workflow involves three key stages:
 - **Gathering Possible URLs:** The message history from these identified channels was systematically collected and parsed.
 <!-- From this data, we extracted over 10,000 potential URLs linking to external resources. -->
 
-- **App Collection & Validation:** The collected URLs are currently being processed using Optical Character Recognition (OCR) to identify and extract application information.
+- **App Collection & Validation:** The collected URLs are processed using Optical Character Recognition (OCR) to identify and extract application information.
 <!-- The final number of validated applications from this stage is currently being determined. -->
 
 <img src="tua-app/workflow.png" style="width: 100%;" class="center">
@@ -277,7 +277,6 @@ async for message in client.iter_messages(entity, limit=1000):
     <img src="tua-app/app-sample1.png" style="width: 90%; margin-left: 10px; margin-top: 0px;" class="center">
   </div>
 </div>
-
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
@@ -289,10 +288,52 @@ async for message in client.iter_messages(entity, limit=1000):
 </div>
 </div>
 
+<!-- 
+Our data collection pipeline has yielded a substantial number of URLs. The initial analysis focuses on the validity of these URLs, the categories of applications they lead to, and the platforms targeted. Let's look at some of the preliminary statistics. -->
+
 <!--v-->
 <!-- .slide: data-background="tua-app/background.png" -->
 
-...
+<h2 style="color: #337ab7;">Validity & Distribution</h2>
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/url_validity_rate.png" style="max-width: 90%; max-height: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <ul>
+      <li>Only <strong>2.8%</strong> of the URLs were valid</li>
+      <li>most were pornography websites and blockchain news, etc.</li>
+    </ul>
+  </div>
+  <div class="col">
+    <img src="tua-app/platform_distribution.png" style="max-width: 88%; max-height: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <ul>
+      <li>Android is the dominant platform (<strong>72.8%</strong>), possibly due to its openness and sideloading ease.</li>
+      <li>followed by iOS (<strong>16.6%</strong>), with a small portion targeting both platforms.</li>
+    </ul>
+  </div>
+</div>
+
+<!--v-->
+<!-- .slide: data-background="tua-app/background.png" -->
+
+<h2 style="color: #337ab7;">Categories & Summary</h2>
+
+<div class="mul-cols">
+  <div class="col">
+    <img src="tua-app/url_category_distribution.png" style="max-width: 95%; max-height: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <ul style="font-size: 0.95em; padding-left: 20px;">
+      <li>Majority of valid URLs distribute <strong>gambling</strong> and <strong>pornographic</strong> apps</li>
+      <li><strong>Pirated software</strong> accounts for 17.8%</li>
+      <li><strong>AI tools</strong> and <strong>Web3/blockchain</strong> apps make up 13.8%</li>
+    </ul>
+  </div>
+  <div class="col" style="display: flex; align-items: center; justify-content: center;">
+    <div style="font-size: 0.95em; line-height: 1.5; padding: 0 10px;">
+      <p><strong>Summary:</strong> Out of the entire dataset, only <strong>2.8%</strong> of URLs were deemed valid, totaling <strong>304 confirmed app distribution links</strong>. The vast majority of invalid URLs pointed to irrelevant sites, such as adult content aggregators or outdated blockchain portals.</p>
+      <p>Among the valid subset, distribution is dominated by <strong>gambling</strong>, <strong>pornography</strong>, and <strong>pirated software</strong>. This illustrates a clear trend in the underground ecosystem. Platform targeting remains heavily skewed toward <strong>Android</strong>, likely due to its permissive installation model.</p>
+    </div>
+  </div>
+</div>
 
 
 <!--s-->
@@ -336,14 +377,14 @@ async for message in client.iter_messages(entity, limit=1000):
 
 <h2 style="color: #337ab7;">Conclusion</h2>
 
-- We implemented a **semi-automated pipeline** to identify Telegram channels promoting underground apps.
+- We implemented a **automated pipeline** to identify Telegram channels promoting underground apps.
 - Our method combined **bot-driven discovery**, **regex-based URL extraction**, **headless browser screenshots**, and **OCR-based keyword recognition**.
-- This enabled us to extract and filter **over 200 high-signal URLs** linked to illicit distribution.
+- This enabled us to extract and filter **over 300 high-signal URLs** linked to illicit distribution.
 - These findings help uncover Telegram’s role in **unregulated app dissemination**, particularly in **Chinese-speaking contexts** where censorship drives alternative distribution.
 - Future work can leverage this pipeline to:
-  - Expand to **private channels or one-on-one bots**
-  - Incorporate **code similarity detection** for app binaries
-  - Develop **automated flagging systems** based on message patterns and visual clues
+  - Extending coverage to **private channels, group chats, or interactive bots**
+  - Incorporating **semantic analysis of message patterns** to detect coordination behavior
+  - Leveraging **visual cues from screenshots** for automated content classification and risk assessment
 
 <!--s-->
 <!-- .slide: data-background="tua-app/background.png" -->
